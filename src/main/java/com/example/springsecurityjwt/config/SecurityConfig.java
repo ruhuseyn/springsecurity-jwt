@@ -1,5 +1,6 @@
 package com.example.springsecurityjwt.config;
 
+import com.example.springsecurityjwt.filter.JwtFilter;
 import com.example.springsecurityjwt.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -17,6 +19,7 @@ import org.springframework.security.core.Authentication;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsServiceImpl userDetailsService;
+    private final JwtFilter jwtFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception{
@@ -31,6 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                .anyRequest().authenticated()
                .and()
                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+       http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 

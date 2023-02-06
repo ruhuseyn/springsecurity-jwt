@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,13 +16,13 @@ import java.util.stream.Stream;
 public class SpringsecurityJwtApplication {
 
     private final UserRepository userRepository;
-
+    @PostConstruct
     public void createUsers() {
         List<User> list = Stream.of(
                 new User(1, "rufet", "12345", "huseyn@gmail.com"),
-                new User(1, "alsu", "123456", "alsu@gmail.com"),
-                new User(1, "sebnem", "1234567", "sebnem@gmail.com"),
-                new User(1, "ugur", "12345678", "ugur@gmail.com")
+                new User(2, "alsu", "123456", "alsu@gmail.com"),
+                new User(3, "sebnem", "1234567", "sebnem@gmail.com"),
+                new User(4, "ugur", "12345678", "ugur@gmail.com")
         ).collect(Collectors.toList());
 
         userRepository.saveAll(list);
